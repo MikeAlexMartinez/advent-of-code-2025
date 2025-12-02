@@ -8,7 +8,9 @@
   "main": "index.js",
   "scripts": {
     "day1": "tsx day1/index.ts",
-    "test": "vitest"
+    "day2": "tsx day2/index.ts",
+    "test": "vitest",
+    "typecheck": "tsc --noEmit"
   },
   "devDependencies": {
     "@types/node": "^24.10.1",

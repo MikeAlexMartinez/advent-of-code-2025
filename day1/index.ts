@@ -1,12 +1,10 @@
-import fs from 'node:fs';
 
+import { readInput } from '../shared/readInput';
 import { parseInput } from './parser';
-import { safeControl } from './safeControl';
 import { getPassword } from './getPassword';
 
 function main(): void {
-  const path = new URL('./input.txt', import.meta.url);
-  const input = fs.readFileSync(path, 'utf8');
+  const input = readInput(1);
   const instructions = parseInput(input);
 
   const password = getPassword(instructions);

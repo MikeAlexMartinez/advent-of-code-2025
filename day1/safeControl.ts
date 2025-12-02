@@ -53,7 +53,6 @@ export function safeControl(onZero: (times: number) => void) {
 
   function turn(instruction: Instruction): void {
     currentPosition = move(currentPosition, instruction, onZero);
-    console.log('currentPosition: ', currentPosition);
   }
 
   return {
