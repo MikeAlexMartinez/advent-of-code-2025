@@ -1,4 +1,6 @@
-import { Instruction } from './parser';
+import { match } from 'ts-pattern';
+
+import { Instruction, Mover } from './types';
 
 export function clampDistance(distance: number) {
   const divisor = 100;
@@ -9,7 +11,33 @@ export function clampDistance(distance: number) {
   };
 }
 
-export function move(currentPosition: number, instruction: Instruction, onZero: (times: number) => void): number {
+function getNewPosition(currentPosition: number, remainder: number, direction: 'L' | 'R'): number {
+  return match(direction)
+    .with('L', () => {
+      const newPosition = currentPosition - remainder;
+      return newPosition < 0 ? newPosition + 100 : newPosition;
+    })
+    .with('R', () => {
+      const newPosition = currentPosition + remainder;
+      return newPosition > 99 ? newPosition - 100 : newPosition;
+    })
+    .exhaustive();
+}
+
+export const movePartOne: Mover = function (currentPosition, instruction, onZero) {
+  const { direction, distance } = instruction;
+  const { remainder } = clampDistance(distance);
+
+  const newPosition = getNewPosition(currentPosition, remainder, direction);
+
+  if (currentPosition === 0) {
+    onZero(1);
+  }
+
+  return newPosition;
+};
+
+export const movePartTwo: Mover = function (currentPosition: number, instruction: Instruction, onZero: (times: number) => void): number {
   const { direction, distance } = instruction;
   const { quotient, remainder } = clampDistance(distance);
 
@@ -48,11 +76,11 @@ export function move(currentPosition: number, instruction: Instruction, onZero: 
   return newPosition - 100;
 }
 
-export function safeControl(onZero: (times: number) => void) {
+export function safeControl(onZero: (times: number) => void, mover: Mover) {
   let currentPosition = 50;
 
   function turn(instruction: Instruction): void {
-    currentPosition = move(currentPosition, instruction, onZero);
+    currentPosition = mover(currentPosition, instruction, onZero);
   }
 
   return {

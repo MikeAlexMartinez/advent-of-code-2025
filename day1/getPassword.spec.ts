@@ -1,9 +1,8 @@
 import { describe, it, expect } from 'vitest';
 
 import { getPassword } from "./getPassword";
-import { Instruction } from "./parser";
-import { move } from './safeControl';
-import { before } from 'node:test';
+import { Instruction } from "./types";
+import { movePartOne, movePartTwo } from './safeControl';
 
 /**
  * The dial is rotated L68 to point at 82.
@@ -38,7 +37,7 @@ const instructions: Instruction[] = [
 //   });
 // });
 
-describe('move', () => {
+describe('move part two', () => {
   const onZero = vi.fn();
 
   beforeEach(() => {
@@ -46,25 +45,25 @@ describe('move', () => {
   });
 
   it('should move left', () => {
-    const result = move(50, { direction: 'L', distance: 10 }, onZero);
+    const result = movePartTwo(50, { direction: 'L', distance: 10 }, onZero);
     expect(onZero).not.toHaveBeenCalled();
     expect(result).toBe(40);
   });
 
   it('should move right', () => {
-    const result = move(50, { direction: 'R', distance: 10 }, onZero);
+    const result = movePartTwo(50, { direction: 'R', distance: 10 }, onZero);
     expect(onZero).not.toHaveBeenCalled();
     expect(result).toBe(60);
   });
 
   it('should wrap around left', () => {
-    const result = move(50, { direction: 'L', distance: 51 }, onZero);
+    const result = movePartTwo(50, { direction: 'L', distance: 51 }, onZero);
     expect(onZero).toHaveBeenCalledWith(1);
     expect(result).toBe(99);
   });
 
   it('should wrap around right', () => {
-    const result = move(50, { direction: 'R', distance: 51 }, onZero);
+    const result = movePartTwo(50, { direction: 'R', distance: 51 }, onZero);
     expect(onZero).toHaveBeenCalledWith(1);
     expect(result).toBe(1);
   });
@@ -78,7 +77,7 @@ describe('getPassword', () => {
       { direction: 'R', distance: 148 }, // 2 - 52 -> 0 finishes on zero
       { direction: 'L', distance: 100 }, // 1 - 0 -> 0 finishes on zero
     ];
-    const result = getPassword(instructions);
+    const result = getPassword(instructions, movePartTwo);
     expect(result).toBe(4);
   });
 
@@ -92,7 +91,7 @@ describe('getPassword', () => {
       { direction: 'R', distance: 2 }, // 1 - 98 -> 0
     ];
 
-    const result = getPassword(instructions);
+    const result = getPassword(instructions, movePartTwo);
     expect(result).toBe(6);
   });
 
@@ -105,7 +104,7 @@ describe('getPassword', () => {
       { direction: 'L', distance: 300 }, // 3 - 0 -> 0
     ];
 
-    const result = getPassword(instructions);
+    const result = getPassword(instructions, movePartTwo);
     expect(result).toBe(7);
   });
 });

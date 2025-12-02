@@ -1,16 +1,19 @@
 import { readInput } from '../shared/readInput';
+import { solver } from '../shared/solver';
 import { sumInvalidIds } from './sumInvalidIds';
 import { parseInput } from './parser';
 import { isInvalidId, isInvalidIdTwo } from './isInvalidId';
 
-function main(): void {
+export function solvePartOne(): number {
   const input = readInput(2);
-
   const ids = parseInput(input);
-  // const invalidIdSum = sumInvalidIds(ids, isInvalidId);
-  const invalidIdSum = sumInvalidIds(ids, isInvalidIdTwo);
-
-  console.log("invalidIdSum: ", invalidIdSum);
+  return sumInvalidIds(ids, isInvalidId);
 }
 
-main();
+export function solvePartTwo(): number {
+  const input = readInput(2);
+  const ids = parseInput(input);
+  return sumInvalidIds(ids, isInvalidIdTwo);
+}
+
+export const solve = solver(solvePartOne, solvePartTwo);

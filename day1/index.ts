@@ -1,15 +1,21 @@
-
 import { readInput } from '../shared/readInput';
-import { parseInput } from './parser';
+import { solver } from '../shared/solver';
 import { getPassword } from './getPassword';
+import { parseInput } from './parser';
+import { movePartOne, movePartTwo } from './safeControl';
 
-function main(): void {
+export function solvePartTwo(): number {
   const input = readInput(1);
   const instructions = parseInput(input);
 
-  const password = getPassword(instructions);
-
-  console.log("password: ", password);
+  return getPassword(instructions, movePartTwo);
 }
 
-main();
+export function solvePartOne(): number {
+  const input = readInput(1);
+  const instructions = parseInput(input);
+
+  return getPassword(instructions, movePartOne);
+}
+
+export const solve = solver(solvePartOne, solvePartTwo);

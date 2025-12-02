@@ -7,8 +7,11 @@
   "type": "module",
   "main": "index.js",
   "scripts": {
-    "day1": "tsx day1/index.ts",
-    "day2": "tsx day2/index.ts",
+    "solve": "tsx index.ts",
+    "solve:1:1": "tsx index.ts -d 1 -p 1",
+    "solve:1:2": "tsx index.ts -d 1 -p 2",
+    "solve:2:1": "tsx index.ts -d 2 -p 1",
+    "solve:2:2": "tsx index.ts -d 2 -p 2",
     "test": "vitest",
     "typecheck": "tsc --noEmit"
   },
@@ -17,5 +20,9 @@
     "tsx": "^4.21.0",
     "typescript": "^5.9.3",
     "vitest": "^4.0.14"
+  },
+  "dependencies": {
+    "commander": "^14.0.2",
+    "ts-pattern": "^5.9.0"
   }
 }

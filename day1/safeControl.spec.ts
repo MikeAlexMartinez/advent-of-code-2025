@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { clampDistance, safeControl } from './safeControl';
+import { clampDistance, movePartTwo, safeControl } from './safeControl';
 
 describe('clampDistance', () => {
   const onZero = vi.fn();
@@ -34,7 +34,7 @@ describe('clampDistance', () => {
 });
 
 
-describe('safeControl', () => {
+describe('safeControl - part two', () => {
   const onZero = vi.fn();
 
   beforeEach(() => {
@@ -42,43 +42,43 @@ describe('safeControl', () => {
   });
 
   it('should start at 50', () => {
-    const control = safeControl(onZero);
+    const control = safeControl(onZero, movePartTwo);
     control.turn({ direction: 'L', distance: 0 });
     expect(onZero).not.toHaveBeenCalled();
   });
 
   it('should turn left', () => {
-    const control = safeControl(onZero);
+    const control = safeControl(onZero, movePartTwo);
     control.turn({ direction: 'L', distance: 10 });
     expect(onZero).not.toHaveBeenCalled();
   });
 
   it('should turn right', () => {
-    const control = safeControl(onZero);
+    const control = safeControl(onZero, movePartTwo);
     control.turn({ direction: 'R', distance: 10 });
     expect(onZero).not.toHaveBeenCalled();
   });
 
   it('should turn left and wrap around', () => {
-    const control = safeControl(onZero);
+    const control = safeControl(onZero, movePartTwo);
     control.turn({ direction: 'L', distance: 101 });
     expect(onZero).toHaveBeenCalledWith(1);
   });
 
   it('should turn right and wrap around', () => {
-    const control = safeControl(onZero);
+    const control = safeControl(onZero, movePartTwo);
     control.turn({ direction: 'R', distance: 101 });
     expect(onZero).toHaveBeenCalledWith(1);
   });
 
   it('should turn left and wrap around multiple times', () => {
-    const control = safeControl(onZero);
+    const control = safeControl(onZero, movePartTwo);
     control.turn({ direction: 'L', distance: 201 });
     expect(onZero).toHaveBeenCalledWith(2);
   });
 
   it('should turn right and wrap around multiple times and handle 0', () => {
-    const control = safeControl(onZero);
+    const control = safeControl(onZero, movePartTwo);
     control.turn({ direction: 'L', distance: 250 });
     expect(onZero).toHaveBeenCalledTimes(2);
     expect(onZero).toHaveBeenNthCalledWith(1, 2);

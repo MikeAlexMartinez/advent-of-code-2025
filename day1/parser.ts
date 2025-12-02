@@ -1,7 +1,4 @@
-export interface Instruction {
-  direction: 'L' | 'R';
-  distance: number;
-}
+import { Instruction } from "./types";
 
 export function parseInstruction(input: string): Instruction {
   const [direction, ...distance] = input.split('');
