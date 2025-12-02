@@ -15,7 +15,7 @@
 // 38593856
 // 38593862
 
-import { isInvalidId } from "./isInvalidId";
+import { containsRepeatedSequences, isInvalidId, isInvalidIdTwo } from "./isInvalidId";
 import { ID } from "./types";
 
 describe('isInvalidId', () => {
@@ -45,5 +45,34 @@ describe('isInvalidId', () => {
       isInvalidId({ value: input, length: input.length }),
       `isInvalidId(${input}) should be ${expected}`
     ).toBe(expected);
+  });
+});
+
+describe('containsRepeatedSequence', () => {
+  it('should return true if the value contains a repeated sequence of the given length', () => {
+    expect(containsRepeatedSequences('1111')(1)).toBe(true);
+    expect(containsRepeatedSequences('1212')(2)).toBe(true);
+    expect(containsRepeatedSequences('121212')(2)).toBe(true);
+  });
+
+  it('should return false if the value does not contain a repeated sequence of the given length', () => {
+    expect(containsRepeatedSequences('1234')(1)).toBe(false);
+    expect(containsRepeatedSequences('1234')(2)).toBe(false);
+    expect(containsRepeatedSequences('1214')(1)).toBe(false);
+    expect(containsRepeatedSequences('1214')(2)).toBe(false);
+  });
+});
+
+describe('isInvalidIdTwo', () => {
+  it('should return true if the value contains a repeated sequence of the given length', () => {
+    expect(isInvalidIdTwo({ value: '1', length: 1 })).toBe(false);
+    expect(isInvalidIdTwo({ value: '11', length: 2 })).toBe(true);
+    expect(isInvalidIdTwo({ value: '1010', length: 4 })).toBe(true);
+    expect(isInvalidIdTwo({ value: '1111', length: 4 })).toBe(true);
+    expect(isInvalidIdTwo({ value: '112112', length: 6 })).toBe(true);
+    expect(isInvalidIdTwo({ value: '123123123', length: 9 })).toBe(true);
+    expect(isInvalidIdTwo({ value: '123123124', length: 9 })).toBe(false);
+    expect(isInvalidIdTwo({ value: '123451234512345', length: 15 })).toBe(true);
+    expect(isInvalidIdTwo({ value: '123451234512545', length: 15 })).toBe(false);
   });
 });

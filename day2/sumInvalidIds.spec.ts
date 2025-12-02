@@ -12,13 +12,14 @@
 import { describe, it, expect } from 'vitest';
 import { sumInvalidIds } from './sumInvalidIds';
 import { parseInput } from './parser';
+import { isInvalidId } from './isInvalidId';
 
 describe('sumInvalidIds', () => {
   const example = "11-22,95-115,998-1012,1188511880-1188511890,222220-222224,1698522-1698528,446443-446449,38593856-38593862";
   it('should sum the invalid ids', () => {
     console.log("example: ", 11 + 22 + 99 + 1010 + 1188511885 + 222222 + 446446 + 38593859);
     const ids = parseInput(example);
-    const result = sumInvalidIds(ids);
+    const result = sumInvalidIds(ids, isInvalidId);
     expect(result).toBe(1227775554);
   });
 });
