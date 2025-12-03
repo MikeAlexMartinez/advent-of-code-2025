@@ -16,26 +16,31 @@ export function expand(bank: string[]): number[] {
   return results;
 }
 
-export function findMaxVoltageTwo(bank: string): number {
+export function findMaxVoltageTwo(bank: string, length = 12): number {
   const digits = bank.split('').map(Number);
   let combination = [];
 
-  for (let i = 0; i < digits.length - 12; i++) {
-    const [value, index] = findLargestNthDigit(digits, i, digits.length);
+  let targetLength = length;
+  let i = 0;
+
+  while (targetLength > 0) {
+    const [value, index] = findLargestNthDigit(digits, i, targetLength);
     combination.push(value);
-    i = index;
+    i = index + 1;
+    targetLength--;
   }
 
   return parseInt(combination.join(''));
 }
 
-function findLargestNthDigit(digits: number[], start: number, end: number): LargestNthDigit {
-  let maxIndex = 0;
+export function findLargestNthDigit(digits: number[], start: number, targetLength: number): LargestNthDigit {
+  let maxIndex = start;
   let max = 0;
 
-  for (let i = start; i < end; i++) {
-    if (digits[i] > max) {
-      max = digits[i];
+  for (let i = start; i <= digits.length - targetLength; i++) {
+    const value = digits[i];
+    if (value > max) {
+      max = value;
       maxIndex = i;
     }
   }

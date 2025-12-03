@@ -1,18 +1,13 @@
-import { readInput } from "../shared/readInput";
 import { solver } from "../shared/solver";
 import { findTotalVoltage, findTotalVoltageTwo } from "./findTotalVoltage";
 import { parseInput } from "./parser";
 
-const DAY = 3;
-
-export function solvePartOne(): number {
-  const input = readInput(DAY);
+export function solvePartOne(input: string): number {
   const banks = parseInput(input);
   return findTotalVoltage(banks);
 }
 
-export function solvePartTwo(): number {
-  const input = readInput(DAY);
+export function solvePartTwo(input: string): number {
   const banks = parseInput(input);
   return findTotalVoltageTwo(banks);
 }

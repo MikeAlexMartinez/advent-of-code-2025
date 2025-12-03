@@ -5,5 +5,5 @@ export function findTotalVoltage(banks: string[]): number {
 }
 
 export function findTotalVoltageTwo(banks: string[]): number {
-  return banks.reduce((acc, bank) => acc + findMaxVoltageTwo(bank), 0);
+  return banks.reduce((acc, bank) => acc + findMaxVoltageTwo(bank, 12), 0);
 }

@@ -4,14 +4,12 @@ import { sumInvalidIds } from './sumInvalidIds';
 import { parseInput } from './parser';
 import { isInvalidId, isInvalidIdTwo } from './isInvalidId';
 
-export function solvePartOne(): number {
-  const input = readInput(2);
+export function solvePartOne(input: string): number {
   const ids = parseInput(input);
   return sumInvalidIds(ids, isInvalidId);
 }
 
-export function solvePartTwo(): number {
-  const input = readInput(2);
+export function solvePartTwo(input: string): number {
   const ids = parseInput(input);
   return sumInvalidIds(ids, isInvalidIdTwo);
 }

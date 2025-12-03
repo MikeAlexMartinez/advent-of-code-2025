@@ -2,15 +2,15 @@ import { match } from "ts-pattern";
 import { Part } from "./types";
 
 export function solver(
-  solvePartOne: () => number,
-  solvePartTwo: () => number
-): (part: Part) => number {
-  return (part: Part) => match(part)
+  solvePartOne: (input: string) => number,
+  solvePartTwo: (input: string) => number
+): (part: Part, input: string) => number {
+  return (part, input) => match(part)
     .with(1, () => {
-      return solvePartOne();
+      return solvePartOne(input);
     })
     .with(2, () => {
-      return solvePartTwo();
+      return solvePartTwo(input);
     })
     .exhaustive();
 }
