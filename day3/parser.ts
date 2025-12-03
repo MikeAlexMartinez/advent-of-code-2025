@@ -1,4 +1,3 @@
-
 export function parseInput(input: string): string[] {
-  return input.split('');
+  return input.split('\n');
 }

@@ -8,10 +8,14 @@
   "main": "index.js",
   "scripts": {
     "solve": "tsx index.ts",
+    "solve:test": "tsx index.ts --test",
     "solve:1:1": "tsx index.ts -d 1 -p 1",
     "solve:1:2": "tsx index.ts -d 1 -p 2",
     "solve:2:1": "tsx index.ts -d 2 -p 1",
     "solve:2:2": "tsx index.ts -d 2 -p 2",
+    "solve:3:1": "tsx index.ts -d 3 -p 1",
+    "solve:3:2": "tsx index.ts -d 3 -p 2",
+    "solve:3:2:test": "tsx index.ts -d 3 -p 2 --test",
     "test": "vitest",
     "typecheck": "tsc --noEmit"
   },
