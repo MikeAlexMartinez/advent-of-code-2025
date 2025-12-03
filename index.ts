@@ -1,11 +1,12 @@
 import { program } from 'commander';
+
 import { readInput } from './shared/readInput';
 import { Day, isDay, isPart, Part } from './shared/types';
 
-async function solveDayAndPart(day: Day, part: Part) {
+async function solveDayAndPart(day: Day, part: Part, test: boolean = false) {
   console.log(`Solving day ${day}, part ${part}`);
   const { solve } = await loadDayModule(day);
-  const input = readInput(day, test);
+  const input = readInput(day, part, test);
 
   return solve(part, input);
 }
@@ -39,5 +40,5 @@ if (!isPart(part)) {
   process.exit(1);
 }
 
-const result = await solveDayAndPart(day, part);
+const result = await solveDayAndPart(day, part, test);
 console.log("My answer is: ", result);
