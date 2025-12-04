@@ -1,33 +1,19 @@
-import { Cell, Grid, Position } from "./types";
+import { Cell, Conditional, Grid } from "./types";
 
-type Conditional = (position: Position, grid: Grid, targetCell: Cell) => boolean;
-
-export function countAdjacentRolls(position: Position, grid: Grid): boolean {
+export function countAllAccessibleCells(grid: Grid, conditional: Conditional, targetCell: Cell): number {
   let count = 0;
 
-  const positions = [
-    { x: position.x - 1, y: position.y - 1 },
-    { x: position.x, y: position.y - 1 },
-    { x: position.x + 1, y: position.y - 1 },
-    { x: position.x - 1, y: position.y },
-    // { x: position.x, y: position.y }, don't count the target cell
-    { x: position.x + 1, y: position.y },
-    { x: position.x - 1, y: position.y + 1 },
-    { x: position.x, y: position.y + 1 },
-    { x: position.x + 1, y: position.y + 1 },
-  ];
-
-  positions.forEach((position) => {
-    if (position.x < 0 || position.x >= grid.width || position.y < 0 || position.y >= grid.height) {
-      return;
+  while (true) {
+    const accessibleCells = cellCounter(grid, conditional, targetCell);
+    console.log('accessibleCells: ', accessibleCells);
+    if (accessibleCells === 0) {
+      break;
     }
+    count += accessibleCells;
+    console.log('running count: ', count);
+  }
 
-    if (grid.map[position.y][position.x] === '@') {
-      count++;
-    }
-  });
-
-  return count < 4;
+  return count;
 }
 
 export function cellCounter(grid: Grid, conditional: Conditional, targetCell: Cell): number {

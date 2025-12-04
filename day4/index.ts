@@ -1,5 +1,6 @@
 import { solver } from "../shared/solver";
-import { cellCounter, countAdjacentRolls } from "./gridReader";
+import { cellCounter, countAllAccessibleCells } from "./gridReader";
+import { countAdjacentRolls } from "./counter";
 import { parseInput } from "./parser";
 
 export function solvePartOne(input: string): number {
@@ -9,7 +10,7 @@ export function solvePartOne(input: string): number {
 
 export function solvePartTwo(input: string): number {
   const grid = parseInput(input);
-  return cellCounter(grid, countAdjacentRolls, '@');
+  return countAllAccessibleCells(grid, countAdjacentRolls, '@');
 }
 
 export const solve = solver(solvePartOne, solvePartTwo);
