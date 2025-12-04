@@ -1,33 +1,60 @@
-import { Cell, Conditional, Grid } from "./types";
+import { Cell, Conditional, Grid, Position, GridManagerResult, Bouncing } from "./types";
 
 export function countAllAccessibleCells(grid: Grid, conditional: Conditional, targetCell: Cell): number {
-  let count = 0;
+  const updateGrid = gridManager(conditional, targetCell);
 
-  while (true) {
-    const accessibleCells = cellCounter(grid, conditional, targetCell);
-    console.log('accessibleCells: ', accessibleCells);
-    if (accessibleCells === 0) {
-      break;
+  const findAllAccessibleCells = ({ grid, count: runningCount }: GridManagerResult): Bouncing => {
+    const { count, grid: updatedGrid } = updateGrid({ grid, count: runningCount });
+    if (count === runningCount) {
+      return { count, grid: updatedGrid };
     }
-    count += accessibleCells;
-    console.log('running count: ', count);
+    return () => findAllAccessibleCells({ grid: updatedGrid, count });
   }
 
-  return count;
+  const trampoline = (fn: () => Bouncing): GridManagerResult => {
+    let result: Bouncing = fn();
+    while (typeof result === 'function') {
+      result = result();
+    }
+    return result;
+  }
+
+  const { count: finalCount } = trampoline(() => findAllAccessibleCells({ grid, count: 0 }));
+
+  return finalCount;
 }
 
-export function cellCounter(grid: Grid, conditional: Conditional, targetCell: Cell): number {
-  let count = 0;
-
-  grid.map.forEach((row, y) => {
-    row.forEach((cell, x) => {
-      if (cell === targetCell) {
-        if (conditional({ x, y }, grid, targetCell)) {
-          count++;
-        }
-      }
-    });
+function printGrid(grid: Grid): void {
+  console.log('\n--------------------------------');
+  grid.map.forEach((row) => {
+    console.log(row.join(''));
   });
+  console.log('--------------------------------\n');
+}
 
-  return count;
+export function gridManager(conditional: Conditional, targetCell: Cell): (props: GridManagerResult) => GridManagerResult {
+  return ({ grid, count }: GridManagerResult): GridManagerResult => {
+    let accessibleCells: Position[] = [];
+    let updatedGrid: Grid = { ...grid };
+
+    grid.map.forEach((row, y) => {
+      row.forEach((cell, x) => {
+        if (cell === targetCell) {
+          if (conditional({ x, y }, grid, targetCell)) {
+            accessibleCells.push({ x, y });
+          }
+        }
+      });
+    });
+
+    accessibleCells.forEach(({ x, y }) => {
+      updatedGrid.map[y][x] = 'x';
+    });
+
+    // printGrid(updatedGrid);
+    const newCount = count + accessibleCells.length;
+    // console.log(`previous count: ${count}, new count: ${newCount}`);
+
+    return { count: newCount, grid: updatedGrid };
+  };
 }

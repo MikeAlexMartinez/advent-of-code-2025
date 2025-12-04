@@ -14,17 +14,6 @@ function buildPositions(position: Position): Position[] {
   ];
 }
 
-export function removeAccessibleRoll(position: Position, grid: Grid): void {
-  const positions = buildPositions(position);
-
-  positions.forEach(({ x, y }) => {
-    if (x < 0 || x >= grid.width || y < 0 || y >= grid.height) {
-      return;
-    }
-    grid.map[y][x] = 'x';
-  });
-}
-
 export function countAdjacentRolls(position: Position, grid: Grid): boolean {
   let count = 0;
 
