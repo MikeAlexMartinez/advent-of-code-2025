@@ -12,10 +12,13 @@ export function countAllAccessibleCells(grid: Grid, conditional: Conditional, ta
   }
 
   const trampoline = (fn: () => Bouncing): GridManagerResult => {
+    let loops = 1;
     let result: Bouncing = fn();
     while (typeof result === 'function') {
       result = result();
+      loops++;
     }
+    console.log(`loops: ${loops}`);
     return result;
   }
 
@@ -34,26 +37,21 @@ function printGrid(grid: Grid): void {
 
 export function gridManager(conditional: Conditional, targetCell: Cell): (props: GridManagerResult) => GridManagerResult {
   return ({ grid, count }: GridManagerResult): GridManagerResult => {
-    let accessibleCells: Position[] = [];
+    let updatedCount = 0;
     let updatedGrid: Grid = { ...grid };
 
     grid.map.forEach((row, y) => {
       row.forEach((cell, x) => {
         if (cell === targetCell) {
-          if (conditional({ x, y }, grid, targetCell)) {
-            accessibleCells.push({ x, y });
+          if (conditional({ x, y }, grid)) {
+            updatedCount++;
+            updatedGrid.map[y][x] = 'x';
           }
         }
       });
     });
 
-    accessibleCells.forEach(({ x, y }) => {
-      updatedGrid.map[y][x] = 'x';
-    });
-
-    // printGrid(updatedGrid);
-    const newCount = count + accessibleCells.length;
-    // console.log(`previous count: ${count}, new count: ${newCount}`);
+    const newCount = count + updatedCount;
 
     return { count: newCount, grid: updatedGrid };
   };

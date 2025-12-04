@@ -40,5 +40,8 @@ if (!isPart(part)) {
   process.exit(1);
 }
 
+const time = performance.now();
 const result = await solveDayAndPart(day, part, test);
 console.log("My answer is: ", result);
+
+console.log(`Time taken: ${performance.now() - time}ms`);
