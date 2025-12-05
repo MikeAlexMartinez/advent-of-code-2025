@@ -1,4 +1,4 @@
-import { solver } from "../shared/solver";
+import { solver } from "../../shared/solver";
 
 import { findSafePoints } from "./findSafePoints";
 import { parseInput } from "./parser";
