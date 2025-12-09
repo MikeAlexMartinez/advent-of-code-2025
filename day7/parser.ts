@@ -1,4 +1,5 @@
+import { Cell, Grid } from "./types";
 
-export function parseInput(input: string): string[] {
-  return input.split('');
+export function parseInput(input: string): Grid {
+  return input.split('\n').map((row) => row.split('') as Cell[]);
 }
