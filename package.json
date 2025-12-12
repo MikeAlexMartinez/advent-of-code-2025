@@ -27,6 +27,7 @@
   },
   "dependencies": {
     "commander": "^14.0.2",
-    "ts-pattern": "^5.9.0"
+    "ts-pattern": "^5.9.0",
+    "z3-solver": "^4.15.4"
   }
 }
